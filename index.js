@@ -3,20 +3,21 @@ const cors = require("cors");
 require("dotenv").config();
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 //firebase admin
 const admin = require("firebase-admin");
-const decoded = Buffer.from(process.env.FIREBASE_SERVICE_KEY, "base64").toString(
-  "utf8"
-);
+const decoded = Buffer.from(
+  process.env.FIREBASE_SERVICE_KEY,
+  "base64"
+).toString("utf8");
 const serviceAccount = JSON.parse(decoded);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
 // middleware
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
+app.use(cors());
 app.use(express.json());
 
 const verifyFireBaseToken = async (req, res, next) => {
@@ -187,11 +188,11 @@ app.listen(port, () => {
   console.log(`localhost Running port on: ${port}`);
 });
 
-client
-  .connect()
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Server is running now on port: ${port}`);
-    });
-  })
-  .catch(console.dir);
+// client
+//   .connect()
+//   .then(() => {
+//     app.listen(port, () => {
+//       console.log(`Server is running now on port: ${port}`);
+//     });
+//   })
+//   .catch(console.dir);
